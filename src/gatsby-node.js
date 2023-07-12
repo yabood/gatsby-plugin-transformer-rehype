@@ -1,14 +1,9 @@
-/**
- * Implement Gatsby's Node APIs in this file.
- *
- * See: https://www.gatsbyjs.com/docs/node-apis/
- */
-// You can delete this file if you're not using it
+"use strict";
 
-/**
- * You can uncomment the following line to verify that
- * your plugin is being loaded in your site.
- *
- * See: https://www.gatsbyjs.com/docs/creating-a-local-plugin/#developing-a-local-plugin-that-is-outside-your-project
- */
-exports.onPreInit = () => console.log("Loaded gatsby-starter-plugin")
+const createSchemaCustomization = require(`./create-schema-customization`);
+const onCreateNode = require(`./on-node-create`);
+const setFieldsOnGraphQLNodeType = require(`./extend-node-type`);
+
+exports.createSchemaCustomization = createSchemaCustomization;
+exports.onCreateNode = onCreateNode;
+exports.setFieldsOnGraphQLNodeType = setFieldsOnGraphQLNodeType;
