@@ -1,7 +1,9 @@
 # gatsby-plugin-transformer-rehype
 `gatsby-plugin-transformer-rehype` is an updated and compatible version of the [gatsby-transformer-rehype](https://github.com/styxlab/gatsby-theme-try-ghost/tree/master/packages/gatsby-transformer-rehype) plugin, which is no longer maintained and does not support Gatsby v5. The purpose of this new plugin is to maintain the core functionality of transforming HTML nodes in Gatsby while ensuring compatibility with Gatsby v5. This allows developers to continue using rehype transformations in their Gatsby projects without facing compatibility issues.
 
-## gatsby-transformer-rehype
+The install instructions below have been updated to reflect the updated plugin name, but everything else was left as is.  
+
+## gatsby-plugin-transformer-rehype
 [![Released under MIT license.](https://badgen.net/github/license/micromatch/micromatch)](https://github.com/styxlab/gatsby-theme-try-ghost/blob/master/LICENSE)
 [![gatsby-transformer-rehype npm package version.](https://badgen.net/npm/v/gatsby-transformer-rehype)](https://www.npmjs.org/package/gatsby-transformer-rehype)
 [![PRs welcome!](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)]()
@@ -14,7 +16,7 @@ This plugin also creates a `tableOfContents` field. The table of contents is gen
 
 ## Install
 
-`yarn add gatsby-transformer-rehype`
+`yarn add gatsby-plugin-transformer-rehype`
 
 ## How to use
 
@@ -22,7 +24,7 @@ This plugin also creates a `tableOfContents` field. The table of contents is gen
 // In your gatsby-config.js
 plugins: [
   {
-    resolve: `gatsby-transformer-rehype`,
+    resolve: `gatsby-plugin-transformer-rehype`,
     options: {
       // Condition for selecting an existing GrapghQL node (optional)
       // If not set, the transformer operates on file nodes.
