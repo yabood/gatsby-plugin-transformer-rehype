@@ -59,6 +59,9 @@ typings/
 public
 
 # Mac files
+/*.js
+!index.js
+utils
 .DS_Store
 
 # Yarn
@@ -67,3 +70,4 @@ yarn-error.log
 .pnp.js
 # Yarn Integrity file
 .yarn-integrity
+node_modules/
