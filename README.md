@@ -1,5 +1,5 @@
 # gatsby-plugin-transformer-rehype
-`gatsby-plugin-transformer-rehype` is an updated and compatible version of the [gatsby-transformer-rehype](https://github.com/styxlab/gatsby-theme-try-ghost/tree/master/packages/gatsby-transformer-rehype) plugin, which is no longer maintained and does not support Gatsby v5. The purpose of this new plugin is to maintain the core functionality of transforming HTML nodes in Gatsby while ensuring compatibility with Gatsby v5. This allows developers to continue using rehype transformations in their Gatsby projects without facing compatibility issues.
+`gatsby-plugin-transformer-rehype` is an updated and compatible version of the [gatsby-transformer-rehype](https://github.com/styxlab/gatsby-theme-try-ghost/tree/master/packages/gatsby-transformer-rehype) plugin, which is no longer maintained. The purpose of this new plugin is to maintain the core functionality of transforming HTML nodes in Gatsby while ensuring compatibility with the latest Gatsby versions.
 
 The install instructions below have been updated to reflect the updated plugin name, but everything else was left as is.  
 

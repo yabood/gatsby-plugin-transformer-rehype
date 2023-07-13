@@ -1,48 +1,62 @@
-import visit from 'unist-util-visit';
-import rehype from 'rehype';
-import html from 'rehype-stringify';
-import parse from 'rehype-parse';
-import raw from 'rehype-raw';
-import slug from 'rehype-slug';
-import autolinkHeadings from 'rehype-autolink-headings';
-import toc from 'rehype-toc';
+const _ = require(`lodash`)
 
-export default async ({ node, getNode, actions, createNodeId, createContentDigest }, pluginOptions) => {
-  if (node.internal.type !== `HtmlRehype`) return;
+const pluginDefaults = {
+    filter: () => false,
+    source: n => n.html,
+    contextFields: [`url`, `slug`, `feature_image`],
+    type: `HtmlRehype`,
+}
 
-  const { createNode, createParentChildLink } = actions;
+module.exports = async function onCreateNode({
+    node,
+    actions,
+    loadNodeContent,
+    createNodeId,
+    reporter,
+    createContentDigest,
+}, pluginOptions) {
+    const { createNode, createParentChildLink } = actions
+    const { filter, source, contextFields, type } = _.merge({}, pluginDefaults, pluginOptions)
 
-  const processHTML = async (html) => {
-    const ast = await rehype()
-      .data(`settings`, { fragment: true })
-      .use(parse)
-      .use(raw)
-      .use(slug)
-      .use(autolinkHeadings, { behavior: `wrap` })
-      .use(html)
-      .use(toc)
-      .use(stringify)
-      .process(html);
-  
-    return {
-      html: ast.toString(),
-      htmlAst: ast,
-      tableOfContents: extractTOC(ast),
-    };
-  };
+    if (node.internal.mediaType !== `text/html` && !filter(node)) {
+        return {}
+    }
 
-  const content = await processHTML(node.html);
-  const htmlNode = {
-    id: createNodeId(`${node.id} >>> HTML`),
-    parent: node.id,
-    internal: {
-      content: JSON.stringify(content),
-      type: `HtmlRehype`,
-      mediaType: `text/html`,
-      contentDigest: createContentDigest(content),
-    },
-  };
+    function transformObject(data, id, type) {
+        const { content, context, ...obj } = data
+        const htmlNode = {
+            ...obj,
+            id,
+            children: [],
+            parent: node.id,
+            context: context,
+            internal: {
+                content: content || ``,
+                type: type,
+            },
+        }
+        htmlNode.internal.contentDigest = createContentDigest(htmlNode)
+        createNode(htmlNode)
+        createParentChildLink({ parent: node, child: htmlNode })
+    }
 
-  createNode(htmlNode);
-  createParentChildLink({ parent: node, child: htmlNode });
-};
+    const data = {}
+    if (node.internal.type === `File`){
+        data.content = await loadNodeContent(node)
+        data.fileAbsolutePath = node.absolutePath
+    } else {
+        data.content = source(node)
+        data.context = {}
+        contextFields.map((field) => {
+            data.context[field] = node[field]
+        })
+    }
+
+    try {
+        return transformObject(data, createNodeId(`${node.id} >>> ${type}`), type)
+    } catch (err) {
+        reporter.panicOnBuild(`Error processing HTML ${node.absolutePath ?
+            `file ${node.absolutePath}` : `in node ${node.id}` }:\n ${err.message}`)
+        return {}
+    }
+}

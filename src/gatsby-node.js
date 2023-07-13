@@ -1,9 +1,3 @@
-"use strict";
-
-const createSchemaCustomization = require(`./create-schema-customization`);
-const onCreateNode = require(`./on-node-create`);
-const setFieldsOnGraphQLNodeType = require(`./extend-node-type`);
-
-exports.createSchemaCustomization = createSchemaCustomization;
-exports.onCreateNode = onCreateNode;
-exports.setFieldsOnGraphQLNodeType = setFieldsOnGraphQLNodeType;
+exports.createSchemaCustomization = require(`./create-schema-customization`)
+exports.onCreateNode = require(`./on-node-create`)
+exports.setFieldsOnGraphQLNodeType = require(`./extend-node-type`)
